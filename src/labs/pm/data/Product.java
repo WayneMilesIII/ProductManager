@@ -16,17 +16,23 @@
  */
 package labs.pm.data;
 
+
 import java.math.BigDecimal;
 import static java.math.RoundingMode.HALF_UP;
+import java.time.LocalDate;
+import java.util.Objects;
+
 
 /**
  * {@code Product} Class represents properties and behaviors of 
  * product objects in the Product Management System. 
  * @author Wayne Miles 
  */
-public class Product {
-    private int id;
-    private String name;
+public abstract class Product implements Rateable<Product> {
+    private final int id;
+    private final String name;
+    private final Rating rating;
+    
     /**
      * A constant that defines a 
      * {@link java.math.BigDecimal BigDecimal} value of the discount rate
@@ -36,28 +42,23 @@ public class Product {
     private BigDecimal price;
     public static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.1);
 
-    public int getId() {
-        return id;
+    Product(int id, String name, BigDecimal price, Rating rating) { //Why does the order matter here?
+        this.id = id;
+        this.name = name;
+        this.rating = rating;
+        this.price = price;
     }
 
-    public void setId(final int id) {
-        this.id = id;
+    public int getId() {
+        return id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(final String name) {
-        this.name = name;
-    }
-
     public BigDecimal getPrice() {
         return price;
-    }
-
-    public void setPrice(final BigDecimal price) {
-        this.price = price;
     }
     
     /*
@@ -72,5 +73,48 @@ public class Product {
     public static BigDecimal getDISCOUNT_RATE() {
         return DISCOUNT_RATE;
     }
+
+    @Override
+    public Rating getRating() {
+        return rating;
+    }
     
+
+    /**
+     * Assumes that the best before date is today
+     * 
+     * @return the current date
+     */
+
+    public LocalDate getBestBefore() {
+        return LocalDate.now();
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Name: " + name + ", Price: " + price + ", Discount: " + getDiscount() + ", Rating: " + rating.getStars() + ", Best Before: " + getBestBefore();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        
+        // How does this compare?
+        if (obj instanceof Product) {
+            final Product other = (Product)obj;
+            return this.id == other.id && Objects.equals(this.name, other.name);
+        }
+        return false;
+    }
+    
+   
 }

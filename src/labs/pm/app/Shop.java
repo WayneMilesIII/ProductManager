@@ -35,7 +35,7 @@ public class Shop {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        ProductManager pm = new ProductManager(Locale.US);
+        ProductManager pm = new ProductManager("en-GB");
         pm.createProduct(101, "Tea", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
         pm.printProductReport(101);
         pm.reviewProduct(101, Rating.FOUR_STAR, "Nice hot cup of tea!");
@@ -67,6 +67,7 @@ public class Shop {
         pm.reviewProduct(106, Rating.THREE_STAR, "Better than the cookie!");
         pm.reviewProduct(106, Rating.TWO_STAR, "Too bitter :c");
         pm.reviewProduct(106, Rating.ONE_STAR, "I didn't get it!");
+        pm.changeLocale("ru-RU");
         pm.printProductReport(106);
 
        

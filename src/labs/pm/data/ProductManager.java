@@ -24,6 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Map;
@@ -153,6 +154,18 @@ public class ProductManager {
             txt.append('\n');
             }
 
+        System.out.println(txt);
+    }
+    
+    public void printProducts(Comparator<Product> sorter){
+        List<Product> productList = new ArrayList<>(products.keySet());
+        productList.sort(sorter);
+        StringBuilder txt = new StringBuilder();
+        
+        for (Product product : productList){
+            txt.append(formatter.formatProduct(product));
+            txt.append('\n');
+        }
         System.out.println(txt);
     }
     

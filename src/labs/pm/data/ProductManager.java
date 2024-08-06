@@ -23,7 +23,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Map;
@@ -61,6 +61,22 @@ public class ProductManager {
         return product;
     }
     
+    public Product findProduct(int id){
+        Product result = null;
+        
+        for(Product product : products.keySet()){
+            if (product.getId() == id){
+                result = product;
+                break;
+            }
+        }
+        return result;
+    }
+    
+    public Product reviewProduct(int id, Rating rating, String comments){
+        return reviewProduct(findProduct(id), rating, comments);
+    }
+    
     public Product reviewProduct(Product product, Rating rating, String comments){
         int sum = 0;
         
@@ -75,8 +91,13 @@ public class ProductManager {
         return product;
     }
     
+     public void printProductReport(int id){
+         printProductReport(findProduct(id));
+     }
+    
     public void printProductReport(Product product){
         List<Review> reviews = products.get(product);
+        Collections.sort(reviews);
         StringBuilder txt = new StringBuilder();
         txt.append(MessageFormat.format(resources.getString("product"), 
                     product.getName(), moneyFormat.format(product.getPrice()), 
@@ -95,5 +116,7 @@ public class ProductManager {
 
         System.out.println(txt);
     }
+    
+    
     
 }
